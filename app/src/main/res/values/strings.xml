@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Application</string>
+    <string name="defaultpassword">User Guide <a href="http://www.cleverfinger.com.au/user-guide/">clique ici</a></string>
+</resources>
