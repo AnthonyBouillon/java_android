@@ -67,18 +67,22 @@ public class SQLite extends SQLiteOpenHelper  {
      * @return
      */
     public ArrayList<Users> getList() {
-        // Create list
-        ArrayList<Users> list = new ArrayList();
+
         // Assign a SQL query
         String selectQuery = "SELECT  * FROM " + TABLE;
         // If read data in the database, use getReadableDatabase
         SQLiteDatabase db = this.getReadableDatabase();
         // Cursor allows to read the records in the database
         // rawQuery() agrees to execute the request
+       /* Cursor cursor = db.query(TABLE, new String[] { ID, MAIL,
+                PASSWORD }, null, null, null, null, MAIL);*/
         Cursor cursor = db.rawQuery(selectQuery, null);
         // If it can read the first line
+        ArrayList<Users> list = new ArrayList<>();
         if (cursor.moveToFirst()) {
             // In {do} I get the value of the first line (corresponding to moveToFirst());
+            // Create list
+
             do {
                 // I create a new user
                 Users user = new Users();
@@ -90,10 +94,13 @@ public class SQLite extends SQLiteOpenHelper  {
                 list.add(user);
                 // it starts the process again (il recommence le processus)
             } while (cursor.moveToNext());
-        }else{
-            // Closes the reading in the database
-            cursor.close();
         }
+        cursor.close();
         return list;
+    }
+
+    public Integer deleteUser(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE, ID + "= " + id, null);
     }
 }

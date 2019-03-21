@@ -40,4 +40,12 @@ public class Users {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    // OBLIGATOIRE POUR LAFFICHAGE DANS UNE LISTEVIEW
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append( mail  + " "  + password +  " " + id);
+        return sb.toString();
+    }
 }
