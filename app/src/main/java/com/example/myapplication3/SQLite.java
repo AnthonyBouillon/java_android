@@ -99,8 +99,28 @@ public class SQLite extends SQLiteOpenHelper  {
         return list;
     }
 
-    public Integer deleteUser(String id){
+    public Integer deleteUser(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE, ID + "= " + id, null);
+    }
+
+    public Integer updateUser(int id, Users user){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(MAIL, user.getMail());
+        cv.put(PASSWORD, user.getPassword());
+        return db.update(TABLE, cv, ID + "=" + id, null);
+    }
+
+    public Users findId(Users user){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE + " " + "WHERE " + ID + " = " + user.getId(), null);
+        if(cursor.moveToFirst()){
+            user.setId(cursor.getInt(cursor.getColumnIndex(ID)));
+            user.setMail(cursor.getString(cursor.getColumnIndex(MAIL)));
+            user.setPassword(cursor.getString(cursor.getColumnIndex(PASSWORD)));
+        }
+        cursor.close();
+        return user;
     }
 }
