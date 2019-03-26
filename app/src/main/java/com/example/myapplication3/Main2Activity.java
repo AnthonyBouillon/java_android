@@ -21,6 +21,7 @@ public class Main2Activity extends AppCompatActivity {
     private ArrayList<Users> list;
     private SQLite sqlite = new SQLite(this);
     private String id_item;
+    private  UsersDB usersDB = new UsersDB(Main2Activity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,18 +48,11 @@ public class Main2Activity extends AppCompatActivity {
             }
         });
 
-
-        listView = findViewById(R.id.listView);
-        list = sqlite.getList();
-        ArrayAdapter<Users> itemAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,  list);
-        listView.setAdapter(itemAdapter);
-
-
+        getList();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-
                 // dans la ligne "5" récupérer l'id
                 AlertDialog.Builder adb = new AlertDialog.Builder(Main2Activity.this);
                 adb.setTitle("Suppression d'utilisateur");
@@ -68,25 +62,37 @@ public class Main2Activity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         id_item = list.get(position).getId().toString();
-                        sqlite.deleteUser(Integer.parseInt(id_item));
-
+                        usersDB.deleteUser(Integer.parseInt(id_item));
                         Toast.makeText(Main2Activity.this, "Element supprimé avec succès !", Toast.LENGTH_SHORT).show();
-
-                        listView = findViewById(R.id.listView);
-                        list = sqlite.getList();
-                        ArrayAdapter<Users> itemAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1,  list);
-                        listView.setAdapter(itemAdapter);
+                        getList();
 
                     }
                 });
                 adb.show();
+            }
+        });
 
+    }
 
+    public void getList() {
+        Button button = new Button(this);
+        button.setText("Ajouter un utilisateur");
+
+        listView = findViewById(R.id.listView);
+        list = usersDB.getList();
+
+        ArrayAdapter<Users> itemAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, list);
+        listView.setAdapter(itemAdapter);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Main2Activity.this, MainActivity.class);
+                startActivity(intent);
 
             }
         });
 
 
     }
-
 }
