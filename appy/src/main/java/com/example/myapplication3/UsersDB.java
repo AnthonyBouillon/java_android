@@ -16,7 +16,7 @@ public class UsersDB {
     private static final String ID = "id";
     private static final String MAIL = "mail";
     private static final String PASSWORD = "password";
-
+    // Database connection
     private SQLite sqlite;
 
 
@@ -63,6 +63,7 @@ public class UsersDB {
                 Users user = new Users();
                 // I get the values back => (get ... back : récupère)
                 user.setId(cursor.getInt(cursor.getColumnIndex(ID)));
+                // getColumnIndex(Column name) : Find the identifier of the column corresponding to the name
                 user.setMail(cursor.getString(cursor.getColumnIndex(MAIL)));
                 user.setPassword(cursor.getString(cursor.getColumnIndex(PASSWORD)));
                 // and adding to list
@@ -84,35 +85,4 @@ public class UsersDB {
         return db.delete(TABLE, ID + "= " + id, null);
     }
 
-    /**
-     * Update a user
-     * @param id
-     * @param user
-     * @return
-     */
-    public Integer updateUser(int id, Users user){
-        SQLiteDatabase db = sqlite.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(MAIL, user.getMail());
-        cv.put(PASSWORD, user.getPassword());
-        return db.update(TABLE, cv, ID + "=" + id, null);
-    }
-
-    /**
-     * Search a user
-     * @param user
-     * @return
-     */
-    public Users findId(Users user){
-        SQLiteDatabase db = sqlite.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE + " " + "WHERE " + ID + " = " + user.getId(), null);
-        if(cursor.moveToFirst()){
-            // getColumnIndex(Column name) : Find the identifier of the column corresponding to the name
-            user.setId(cursor.getInt(cursor.getColumnIndex(ID)));
-            user.setMail(cursor.getString(cursor.getColumnIndex(MAIL)));
-            user.setPassword(cursor.getString(cursor.getColumnIndex(PASSWORD)));
-        }
-        cursor.close();
-        return user;
-    }
 }

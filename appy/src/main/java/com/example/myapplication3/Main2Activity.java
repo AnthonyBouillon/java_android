@@ -19,7 +19,6 @@ public class Main2Activity extends AppCompatActivity {
     private Button btn_rollBack;
     private ListView listView;
     private ArrayList<Users> list;
-    private SQLite sqlite = new SQLite(this);
     private String id_item;
     private  UsersDB usersDB = new UsersDB(Main2Activity.this);
 
@@ -28,15 +27,21 @@ public class Main2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
+        // Display the list
+        getList();
+        // Récupère les données passées en paramètre provenant de la première activity
         Intent intent = getIntent();
         if(intent != null){
             String mail = intent.getStringExtra("mail");
             String password = intent.getStringExtra("password");
             if(mail != null && password != null && !mail.equals("") && !password.equals("")){
-                new AlertDialog.Builder(this).setTitle("Bienvenue " + mail).setMessage("Voici la liste des utilisateurs").show();
+                new AlertDialog.Builder(this)
+                        .setTitle("Bienvenue " + mail)
+                        .setMessage("Voici la liste des utilisateurs")
+                        .show();
             }
         }
-
+        // Revenir à la page précédente
         btn_rollBack = findViewById(R.id.button4);
         btn_rollBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,8 +53,8 @@ public class Main2Activity extends AppCompatActivity {
             }
         });
 
-        getList();
 
+        // Delete a user from the list
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {

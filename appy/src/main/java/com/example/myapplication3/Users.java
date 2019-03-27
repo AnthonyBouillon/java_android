@@ -13,8 +13,8 @@ public class Users {
 
     }
     public Users(String mail, String password){
-        this.mail = mail;
-        this.password = password;
+        setMail(mail);
+        setPassword(password);
     }
 
     public Integer getId(){
@@ -41,7 +41,7 @@ public class Users {
         this.password = password;
     }
 
-    // OBLIGATOIRE POUR LAFFICHAGE DANS UNE LISTEVIEW
+    // REQUIRED FOR THE DISPLAY IN A LIST VIEW
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

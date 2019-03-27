@@ -16,14 +16,13 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_validate;
     private Button btn_cancel;
     private Button btn_view;
-
     private boolean add = false;
     // Field
     private EditText input_editMail;
     private EditText input_editPass;
-
     // Class
     private SQLite sqlite;
+    private UsersDB usersDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +83,8 @@ public class MainActivity extends AppCompatActivity {
         if(!input_editMail.getText().toString().equals("") && !input_editPass.getText().toString().equals("")){
             Users user = new Users(input_editMail.getText().toString(), input_editPass.getText().toString());
             // Instance my class
-            sqlite = new SQLite(getApplicationContext());
-            sqlite.create(user);
+            usersDB = new UsersDB(getApplicationContext());
+            usersDB.create(user);
             add = true;
             sqlite.close();
             Toast.makeText(getApplicationContext(), "Vous êtes dorénavent inscrit " + user.getMail(), Toast.LENGTH_LONG).show();
